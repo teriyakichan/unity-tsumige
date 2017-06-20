@@ -39,5 +39,19 @@ public class ClickerController : MonoBehaviour
 		{
 			Click();
 		}
+		if (Input.GetKeyDown("1"))
+		{
+			player.items[0].level += 1;
+			player.RefreshClickValue();
+		}
+		if (Input.GetKeyDown("2"))
+		{
+			player.items[1].level += 1;
+			player.RefreshClickValue();
+		}
+		if (Input.GetKeyDown("d"))
+		{
+			player.DebugItem();
+		}
 	}
 }

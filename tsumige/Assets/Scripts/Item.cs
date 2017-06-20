@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Item
 {
+	public const int COLUMNS = 7;
+
 	// master(csv)
 	public int id;             // id
 	public string name;        // 名称
@@ -18,18 +20,18 @@ public class Item
 	// 現在のつよさ
 	public double currentVal
 	{
-		get { return val + valPerLevel * level; }
+		get { return val + valPerLevel * (level - 1); }
 	}
 	// 現在の費用
 	public double currentCost
 	{
-		get { return cost + costPerLevel * level; }
+		get { return cost + costPerLevel * (level - 1); }
 	}
 
 	public static List<Item> LoadMaster()
 	{
 		var items = new List<Item>();
-		var data = Resources.Load("Data/master.txt") as TextAsset;
+		var data = Resources.Load("Data/master_items") as TextAsset;
 		var dataList = data.text.Replace("\r\n", "\n").Split('\n');
 		string[] raw;
 		for (var i = 0; i < dataList.Length; ++i)
@@ -37,6 +39,7 @@ public class Item
 			var item = new Item();
 			// parse csv
 			raw = dataList[i].Split(',');
+			if (raw.Length != COLUMNS) continue;
 			int index = 0;
 			item.id = int.Parse(raw[index++]);
 			item.name = raw[index++];

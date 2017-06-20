@@ -27,6 +27,7 @@ public class Player
 
 	public void Init()
 	{
+		items = Item.LoadMaster();
 
 		RefreshClickValue();
 		RefreshAutoValue();
@@ -59,5 +60,23 @@ public class Player
 
 	public void RefreshAutoValue()
 	{
+	}
+
+	public void DebugItem()
+	{
+		for (var i = 0; i < items.Count; ++i)
+		{
+			var item = items[i];
+			UnityEngine.Debug.Log(
+				item.id + ", " +
+				item.name + ", " +
+				item.type + ", " +
+				item.val + ", " +
+				item.valPerLevel + ", " +
+				item.cost + ", " +
+				item.costPerLevel + " (" +
+				item.level + ")"
+				);
+		}
 	}
 }

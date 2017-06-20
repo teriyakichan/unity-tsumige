@@ -1,7 +1,7 @@
 ﻿public enum ItemType
 {
-	PowerUp,
-	AutoClick,
-	BoostPowerUp,
-	BoostAutoClick,
+	PowerUp = 1,
+	AutoClick = 2,
+	BoostPowerUp = 11,
+	BoostAutoClick = 12,
 }
