@@ -8,8 +8,6 @@ public class ClickerController : MonoBehaviour
 	public Text scoreLabel;
 	public GameObject clickPoint;
 
-	public decimal count;
-
 	public Player player;
 
 	void Start()
@@ -23,9 +21,13 @@ public class ClickerController : MonoBehaviour
 	/// </summary>
 	public void Click()
 	{
-		count += (decimal)player.clickValue;
+		player.Click();
+		RefreshScore();
+	}
 
-		scoreLabel.text = count + "";
+	public void RefreshScore()
+	{
+		scoreLabel.text = player.score.ToString().Split('.')[0];
 	}
 
 	void FixedUpdate()
@@ -41,13 +43,13 @@ public class ClickerController : MonoBehaviour
 		}
 		if (Input.GetKeyDown("1"))
 		{
-			player.items[0].level += 1;
-			player.RefreshClickValue();
+			player.Buy(1);
+			RefreshScore();
 		}
 		if (Input.GetKeyDown("2"))
 		{
-			player.items[1].level += 1;
-			player.RefreshClickValue();
+			player.Buy(2);
+			RefreshScore();
 		}
 		if (Input.GetKeyDown("d"))
 		{
