@@ -37,9 +37,9 @@ public class Player
 		score += clickValue;
 	}
 
-	public void AutoClick()
+	public void AutoClick(decimal percentage)
 	{
-		score += autoValue;
+		score += autoValue * percentage;
 	}
 
 	/// <summary>
@@ -47,7 +47,7 @@ public class Player
 	/// </summary>
 	/// <param name="id"></param>
 	/// <param name="count"></param>
-	public void Buy(int id, int count = 1)
+	public Item Buy(int id, int count = 1)
 	{
 		int index = -1;
 		for (int i = 0; i < items.Count; ++i)
@@ -59,14 +59,15 @@ public class Player
 			}
 		}
 		// check item
-		if (index < 0) return;
+		if (index < 0) return null;
 		decimal cost = (decimal)items[index].currentCost;
 		// check score
-		if (score < cost) return;
+		if (score < cost) return null;
 		// buy
 		score -= cost;
 		items[index].level++;
 		Refresh();
+		return items[index];
 	}
 
 	/// <summary>
@@ -80,21 +81,8 @@ public class Player
 		for (int i = 0; i < items.Count; ++i)
 		{
 			if (items[i].level == 0) continue;
-			switch (items[i].type)
-			{
-				case ItemType.PowerUp:
-					clickVal += items[i].currentVal;
-					break;
-				case ItemType.BoostPowerUp:
-					clickVal *= items[i].currentVal;
-					break;
-				case ItemType.AutoClick:
-					autoVal += items[i].currentVal;
-					break;
-				case ItemType.BoostAutoClick:
-					autoVal *= items[i].currentVal;
-					break;
-			}
+			clickVal += items[i].currentClick;
+			autoVal += items[i].currentAuto;
 		}
 
 		clickValue = (decimal)clickVal;
@@ -109,9 +97,10 @@ public class Player
 			UnityEngine.Debug.Log(
 				item.id + ", " +
 				item.name + ", " +
-				item.type + ", " +
-				item.val + ", " +
-				item.valPerLevel + ", " +
+				item.click + ", " +
+				item.clickPerLevel + ", " +
+				item.auto + ", " +
+				item.autoPerLevel + ", " +
 				item.cost + ", " +
 				item.costPerLevel + " (" +
 				item.level + ")"
