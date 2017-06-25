@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class ClickerController : MonoBehaviour
 {
+	public DropSoftController dropController;
+
 	public Text scoreLabel;
 	public Text clickSpeedLabel;
 	public Text autoSpeedLabel;
@@ -58,23 +60,26 @@ public class ClickerController : MonoBehaviour
 	public void Click()
 	{
 		player.Click();
+		dropController.Drop();
 	}
 
 	public void BuyItem(int index)
 	{
 		Item item = player.Buy(_itemIds[index]);
 		if (item != null) buttons[index].SetItem(item);
+		dropController.SetMaxUnlockedNum(player.unlockedItem);
+		dropController.SetSpeed(player.autoValue);
 		RefreshScore();
 		for (int i = 0; i < player.items.Count; ++i)
 		{
-			if (player.items[i].level == 0) return;
-			hardwares[i].SetActive(true);
+			if (player.items[i].level > 0)
+				hardwares[i].SetActive(true);
 		}
 	}
 
 	public void RefreshScore(bool onlyScore = false)
 	{
-		scoreLabel.text = player.score.ToString().Split('.')[0];
+		scoreLabel.text = player.score.ToString("#,0").Split('.')[0];
 		for (int i = 0; i < player.items.Count; ++i)
 		{
 			if (player.items[i].unlocked) continue;
@@ -82,7 +87,6 @@ public class ClickerController : MonoBehaviour
 			{
 				player.items[i].unlocked = true;
 				buttons[i].Unlock();
-				Debug.Log("unlock" + i);
 			}
 			else
 			{
@@ -112,6 +116,10 @@ public class ClickerController : MonoBehaviour
 		{
 			Click();
 		}
+		if (Input.GetKey(KeyCode.A)) player.score += 10000;
+		if (Input.GetKey(KeyCode.S)) player.score += 100000;
+		if (Input.GetKey(KeyCode.D)) player.score += 1000000;
+		if (Input.GetKey(KeyCode.F)) player.score += 10000000;
 		if (Input.GetKeyDown("1"))
 		{
 			player.Buy(1);

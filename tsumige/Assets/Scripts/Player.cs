@@ -26,6 +26,19 @@ public class Player
 	// 現在の自動加算ポイント
 	public decimal autoValue = 0;
 
+	public int unlockedItem
+	{
+		get
+		{
+			int unlocked = 0;
+			for (int i = 0; i < items.Count; ++i)
+			{
+				if (items[i].level > 0) unlocked = i;
+			}
+			return unlocked;
+		}
+	}
+
 	public void Init()
 	{
 		items = Item.LoadMaster();

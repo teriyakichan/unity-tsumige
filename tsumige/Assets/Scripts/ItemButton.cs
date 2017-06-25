@@ -19,7 +19,7 @@ public class ItemButton : MonoBehaviour
 
 	public void SetItem(Item item)
 	{
-		costText.text = item.currentCost.ToString();
+		costText.text = item.currentCost.ToString("#,0");
 		ownedText.text = item.level == 0 ? "" : item.level.ToString();
 		_itemName = item.name;
 	}
