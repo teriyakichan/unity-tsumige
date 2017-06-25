@@ -19,7 +19,7 @@ public class DropSoftController : MonoBehaviour
 	public decimal _speed = 0;
 	public int _maxUnlockedNum;
 
-	void Start()
+	public void Init()
 	{
 		// init
 		stateList = new List<bool>();

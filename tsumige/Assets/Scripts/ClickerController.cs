@@ -33,6 +33,7 @@ public class ClickerController : MonoBehaviour
 		player = Player.GetInstance();
 		player.Init();
 		// init UI
+		dropController.Init();
 		Object buttonPrefab = Resources.Load("ItemButton");
 		buttons = new ItemButton[player.items.Count];
 		_itemIds = new int[player.items.Count];
@@ -56,7 +57,12 @@ public class ClickerController : MonoBehaviour
 		for (int i = 0; i < player.items.Count; ++i)
 		{
 			buttons[i].SetItem(player.items[i]);
-			if (player.items[i].unlocked) buttons[i].Unlock();
+			if (player.items[i].unlocked)
+				buttons[i].Unlock();
+			if (player.items[i].level > 0)
+				hardwares[i].SetActive(true);
+			dropController.SetMaxUnlockedNum(player.unlockedItem);
+			dropController.SetSpeed(player.autoValue);
 		}
 		RefreshScore();
 	}
