@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Player
 {
@@ -104,6 +105,37 @@ public class Player
 		clickValue = (decimal)clickVal;
 		autoValue = (decimal)autoVal;
 	}
+
+	/// <summary>
+	/// save
+	/// </summary>
+	public void Save()
+	{
+		PlayerPrefs.SetString("score", score.ToString());
+		PlayerPrefs.SetString("scoreTotal", scoreTotal.ToString());
+		for (int i = 0; i < items.Count; ++i)
+		{
+			PlayerPrefs.SetInt("Item" + i, items[i].level);
+			PlayerPrefs.SetInt("ItemUnlocked" + i, items[i].unlocked ? 1 : 0);
+		}
+		PlayerPrefs.Save();
+	}
+
+	/// <summary>
+	/// load
+	/// </summary>
+	public void Load()
+	{
+		score = decimal.Parse(PlayerPrefs.GetString("score", "0"));
+		scoreTotal = decimal.Parse(PlayerPrefs.GetString("scoreTotal", "0"));
+		for (int i = 0; i < items.Count; ++i)
+		{
+			items[i].level = PlayerPrefs.GetInt("Item" + i, 0);
+			items[i].unlocked = PlayerPrefs.GetInt("ItemUnlocked" + i, 0) == 1;
+		}
+		Refresh();
+	}
+
 
 	public void DebugItem()
 	{

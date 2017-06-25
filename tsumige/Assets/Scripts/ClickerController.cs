@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ClickerController : MonoBehaviour
 {
+	internal readonly float SAVE_INTERVAL = 30f;
 	public DropSoftController dropController;
 
 	public Text scoreLabel;
@@ -50,7 +51,13 @@ public class ClickerController : MonoBehaviour
 			buttons[i] = button;
 			obj.GetComponent<Button>().onClick.AddListener(() => BuyItem(index));
 		}
-
+		// load data & refresh
+		player.Load();
+		for (int i = 0; i < player.items.Count; ++i)
+		{
+			buttons[i].SetItem(player.items[i]);
+			if (player.items[i].unlocked) buttons[i].Unlock();
+		}
 		RefreshScore();
 	}
 
@@ -71,10 +78,9 @@ public class ClickerController : MonoBehaviour
 		dropController.SetSpeed(player.autoValue);
 		RefreshScore();
 		for (int i = 0; i < player.items.Count; ++i)
-		{
 			if (player.items[i].level > 0)
 				hardwares[i].SetActive(true);
-		}
+		player.Save();
 	}
 
 	public void RefreshScore(bool onlyScore = false)
@@ -104,12 +110,19 @@ public class ClickerController : MonoBehaviour
 		player.AutoClick((decimal)(Time.deltaTime / 1f));
 	}
 
+	private float _time = 0;
 	void Update()
 	{
 		RefreshScore(true);
 		if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Space))
 		{
 			Click();
+		}
+		// auto save
+		_time += Time.deltaTime;
+		if (_time >= SAVE_INTERVAL)
+		{
+			player.Save();
 		}
 		// DEBUG
 		if (Input.GetKey(KeyCode.Z))

@@ -11,7 +11,7 @@ public class ItemButton : MonoBehaviour
 	public Text ownedText;
 	private string _itemName = "";
 
-	void Start()
+	void Awake()
 	{
 		GetComponent<Button>().interactable = false;
 		itemImage.color = Color.black;

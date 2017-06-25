@@ -34,7 +34,6 @@ public class Item
 		get { return cost + costPerLevel * level; }
 	}
 
-
 	public static List<Item> LoadMaster()
 	{
 		var items = new List<Item>();
