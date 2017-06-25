@@ -9,27 +9,27 @@ public class Item
 	// master(csv)
 	public int id;               // id
 	public string name;          // 名称
-	public double click;         // 1クリックのポイント
-	public double clickPerLevel; // 1レベルごとに上昇するポイント
-	public double auto;          // 1秒のポイント
-	public double autoPerLevel;  // 1レベルごとに上昇するポイント
-	public double cost;          // 費用
-	public double costPerLevel;  // 1レベルごとに上昇する費用
+	public decimal click;         // 1クリックのポイント
+	public decimal clickPerLevel; // 1レベルごとに上昇するポイント
+	public decimal auto;          // 1秒のポイント
+	public decimal autoPerLevel;  // 1レベルごとに上昇するポイント
+	public decimal cost;          // 費用
+	public decimal costPerLevel;  // 1レベルごとに上昇する費用
 	// playerprefs
 	public int level = 0;
 	public bool unlocked = false;
 
 	// 現在のつよさ
-	public double currentClick
+	public decimal currentClick
 	{
 		get { return click + clickPerLevel * (level - 1); }
 	}
-	public double currentAuto
+	public decimal currentAuto
 	{
 		get { return auto + autoPerLevel * (level - 1); }
 	}
 	// 現在の費用
-	public double currentCost
+	public decimal currentCost
 	{
 		get { return cost + costPerLevel * level; }
 	}
@@ -49,12 +49,12 @@ public class Item
 			int index = 0;
 			item.id = int.Parse(raw[index++]);
 			item.name = raw[index++];
-			item.click = double.Parse(raw[index++]);
-			item.clickPerLevel = double.Parse(raw[index++]);
-			item.auto = double.Parse(raw[index++]);
-			item.autoPerLevel = double.Parse(raw[index++]);
-			item.cost = double.Parse(raw[index++]);
-			item.costPerLevel = double.Parse(raw[index++]);
+			item.click = decimal.Parse(raw[index++]);
+			item.clickPerLevel = decimal.Parse(raw[index++]);
+			item.auto = decimal.Parse(raw[index++]);
+			item.autoPerLevel = decimal.Parse(raw[index++]);
+			item.cost = decimal.Parse(raw[index++]);
+			item.costPerLevel = decimal.Parse(raw[index++]);
 
 			items.Add(item);
 		}

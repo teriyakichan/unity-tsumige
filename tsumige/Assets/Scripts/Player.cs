@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Player
 {
-	public const double DEFAULT_CLICK = 1;
+	public const decimal DEFAULT_CLICK = 1;
 
 	private static Player _player;
 	public static Player GetInstance()
@@ -93,8 +93,8 @@ public class Player
 	/// <returns></returns>
 	public void Refresh()
 	{
-		double clickVal = DEFAULT_CLICK;
-		double autoVal = 0;
+		decimal clickVal = DEFAULT_CLICK;
+		decimal autoVal = 0;
 		for (int i = 0; i < items.Count; ++i)
 		{
 			if (items[i].level == 0) continue;

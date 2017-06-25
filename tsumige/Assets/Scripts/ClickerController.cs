@@ -45,12 +45,13 @@ public class ClickerController : MonoBehaviour
 		{
 			hardwares[i].SetActive(false);
 			GameObject obj = Instantiate(buttonPrefab) as GameObject;
-			obj.transform.parent = buttonContainer;
 			RectTransform rect = obj.GetComponent<RectTransform>();
+			rect.SetParent(buttonContainer);
 			rect.anchoredPosition = new Vector2(0, i * -58);
 			int index = i;
 			_itemIds[i] = player.items[i].id;
 			ItemButton button = obj.GetComponent<ItemButton>();
+			button.SetOnMouseCallback(() => ShowTip(index));
 			button.SetItem(player.items[i]);
 			button.SetSprite(player.items[i].id);
 			buttons[i] = button;
@@ -71,6 +72,12 @@ public class ClickerController : MonoBehaviour
 		RefreshScore();
 	}
 
+	public void ShowTip(int index)
+	{
+		if (player.items[index].level > 0)
+			buttons[index].ShowTip(player.items[index], player.clickValue, player.autoValue);
+	}
+
 	/// <summary>
 	/// クリック時加算
 	/// </summary>
@@ -86,6 +93,7 @@ public class ClickerController : MonoBehaviour
 		if (item != null) buttons[index].SetItem(item);
 		dropController.SetMaxUnlockedNum(player.unlockedItem);
 		dropController.SetSpeed(player.autoValue);
+		ShowTip(index);
 		RefreshScore();
 		for (int i = 0; i < player.items.Count; ++i)
 			if (player.items[i].level > 0)
