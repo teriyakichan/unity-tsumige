@@ -42,6 +42,7 @@ public class ClickerController : MonoBehaviour
 			_itemIds[i] = player.items[i].id;
 			ItemButton button = obj.GetComponent<ItemButton>();
 			button.SetItem(player.items[i]);
+			button.SetSprite(player.items[i].id);
 			buttons[i] = button;
 			obj.GetComponent<Button>().onClick.AddListener(() => BuyItem(index));
 		}

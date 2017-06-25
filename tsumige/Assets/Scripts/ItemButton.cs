@@ -16,4 +16,10 @@ public class ItemButton : MonoBehaviour
 		costText.text = item.currentCost.ToString();
 		ownedText.text = item.level == 0 ? "" : item.level.ToString();
 	}
+
+	public void SetSprite(int num)
+	{
+		Texture2D texture = Resources.Load("Sprites/h" + num) as Texture2D;
+		itemImage.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+	}
 }
