@@ -130,6 +130,7 @@ public class ClickerController : MonoBehaviour
 		{
 			player.Save();
 		}
+#if false
 		// DEBUG
 		if (Input.GetKey(KeyCode.Z))
 		{
@@ -151,5 +152,6 @@ public class ClickerController : MonoBehaviour
 		{
 			player.DebugItem();
 		}
+#endif
 	}
 }
