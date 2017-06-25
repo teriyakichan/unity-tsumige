@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +21,8 @@ public class ClickerController : MonoBehaviour
 
 	public Player player;
 
+	private DateTime _lastUpdated;
+
 	void Start()
 	{
 		_init();
@@ -27,6 +30,7 @@ public class ClickerController : MonoBehaviour
 
 	private void _init()
 	{
+		_lastUpdated = DateTime.Now;
 		// events
 		clickerButton.onClick.AddListener(() => Click());
 		// init player
@@ -34,7 +38,7 @@ public class ClickerController : MonoBehaviour
 		player.Init();
 		// init UI
 		dropController.Init();
-		Object buttonPrefab = Resources.Load("ItemButton");
+		UnityEngine.Object buttonPrefab = Resources.Load("ItemButton");
 		buttons = new ItemButton[player.items.Count];
 		_itemIds = new int[player.items.Count];
 		for (int i = 0; i < player.items.Count; ++i)
@@ -110,8 +114,17 @@ public class ClickerController : MonoBehaviour
 		clickSpeedLabel.text = player.clickValue.ToString("0.0");
 	}
 
+	private TimeSpan _ts;
+	private DateTime _now;
 	void FixedUpdate()
 	{
+		_now = DateTime.Now;
+		_ts = _now - _lastUpdated;
+		if (_ts.TotalSeconds > 5)
+		{
+			player.AutoClick((decimal)_ts.TotalSeconds);
+		}
+		_lastUpdated = _now;
 		// 自動クリック
 		player.AutoClick((decimal)(Time.deltaTime / 1f));
 	}
