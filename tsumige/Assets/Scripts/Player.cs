@@ -18,6 +18,7 @@ public class Player
 
 	// スコア(ゴールド)
 	public decimal score;
+	public decimal scoreTotal;
 	// 所持アイテム
 	public List<Item> items = new List<Item>();
 	// 現在のクリックごとのポイント
@@ -35,11 +36,13 @@ public class Player
 	public void Click()
 	{
 		score += clickValue;
+		scoreTotal += clickValue;
 	}
 
 	public void AutoClick(decimal percentage)
 	{
 		score += autoValue * percentage;
+		scoreTotal += autoValue * percentage;
 	}
 
 	/// <summary>

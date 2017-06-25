@@ -12,6 +12,7 @@ public class ClickerController : MonoBehaviour
 
 	public Transform buttonContainer;
 	public ItemButton[] buttons;
+	public GameObject[] hardwares;
 	private int[] _itemIds;
 
 	public Player player;
@@ -34,6 +35,7 @@ public class ClickerController : MonoBehaviour
 		_itemIds = new int[player.items.Count];
 		for (int i = 0; i < player.items.Count; ++i)
 		{
+			hardwares[i].SetActive(false);
 			GameObject obj = Instantiate(buttonPrefab) as GameObject;
 			obj.transform.parent = buttonContainer;
 			RectTransform rect = obj.GetComponent<RectTransform>();
@@ -63,11 +65,30 @@ public class ClickerController : MonoBehaviour
 		Item item = player.Buy(_itemIds[index]);
 		if (item != null) buttons[index].SetItem(item);
 		RefreshScore();
+		for (int i = 0; i < player.items.Count; ++i)
+		{
+			if (player.items[i].level == 0) return;
+			hardwares[i].SetActive(true);
+		}
 	}
 
 	public void RefreshScore(bool onlyScore = false)
 	{
 		scoreLabel.text = player.score.ToString().Split('.')[0];
+		for (int i = 0; i < player.items.Count; ++i)
+		{
+			if (player.items[i].unlocked) continue;
+			if (player.score >= (decimal)player.items[i].cost)
+			{
+				player.items[i].unlocked = true;
+				buttons[i].Unlock();
+				Debug.Log("unlock" + i);
+			}
+			else
+			{
+				break;
+			}
+		}
 		if (onlyScore) return;
 		autoSpeedLabel.text = player.autoValue.ToString("0.0");
 		clickSpeedLabel.text = player.clickValue.ToString("0.0");
@@ -82,8 +103,12 @@ public class ClickerController : MonoBehaviour
 	void Update()
 	{
 		RefreshScore(true);
+		if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Space))
+		{
+			Click();
+		}
 		// DEBUG
-		if (Input.GetKeyDown("z"))
+		if (Input.GetKey(KeyCode.Z))
 		{
 			Click();
 		}
